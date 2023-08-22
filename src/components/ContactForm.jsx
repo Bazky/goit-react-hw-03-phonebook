@@ -14,7 +14,8 @@ const ContactForm = ({ contacts, onAddContact }) => {
     setNumber(event.target.value);
   };
 
-  const handleAddContact = () => {
+  const handleAddContact = ev => {
+    ev.preventDefault();
     if (name.trim() !== '') {
       const existingContact = contacts.find(
         contact => contact.name.toLowerCase() === name.toLowerCase()
@@ -32,12 +33,12 @@ const ContactForm = ({ contacts, onAddContact }) => {
 
   return (
     <div className={css.contactForm}>
-      <div className={css.containerForm}>
+      <form className={css.containerForm} onSubmit={handleAddContact}>
         <label>Name</label>
         <input
           type="text"
           name="name"
-          pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+          pattern="^[a-zA-Zа-яА-Я\\s'-]+$"
           title="Name may contain only letters, apostrophe, dash and spaces."
           required
           value={name}
@@ -48,17 +49,17 @@ const ContactForm = ({ contacts, onAddContact }) => {
         <input
           type="tel"
           name="number"
-          pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+          pattern="\\+?\\d{1,4}[-.\\s]?\\(?\d{1,3}?\\)?[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,4}[-.\\s]?\\d{1,9}"
           title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           required
           value={number}
           onChange={handleNumberChange}
           className={css.input}
         />
-        <button className={css.button} onClick={handleAddContact}>
+        <button className={css.button__form} type="submit">
           Add contact
         </button>
-      </div>
+      </form>
     </div>
   );
 };
