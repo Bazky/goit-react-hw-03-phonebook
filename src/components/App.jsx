@@ -9,10 +9,15 @@ const App = () => {
   const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
 
+  const storedContacts = JSON.parse(localStorage.getItem('contacts')) || [];
+  if (contacts.length === 0 && storedContacts.length > 0) {
+    setContacts(storedContacts);
+  }
+
   const handleDeleteContact = id => {
-    setContacts(prevContacts =>
-      prevContacts.filter(contact => contact.id !== id)
-    );
+    const updatedContacts = contacts.filter(contact => contact.id !== id);
+    setContacts(updatedContacts);
+    localStorage.setItem('contacts', JSON.stringify(updatedContacts));
   };
 
   const handleFilterChange = event => {
@@ -22,6 +27,10 @@ const App = () => {
   const handleAddContact = newContact => {
     const contactWithId = { ...newContact, id: nanoid() };
     setContacts(prevContacts => [...prevContacts, contactWithId]);
+    localStorage.setItem(
+      'contacts',
+      JSON.stringify([...contacts, contactWithId])
+    );
   };
 
   const filteredContacts = contacts.filter(contact =>
