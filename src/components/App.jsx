@@ -16,14 +16,14 @@ export const App = () => {
     }
   }, []);
 
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
+
   const handleAddContact = newContact => {
     const contactWithId = { ...newContact, id: nanoid() };
     setContacts(prevContacts => [...prevContacts, contactWithId]);
   };
-
-  useEffect(() => {
-    localStorage.setItem('contacts', JSON.stringify(contacts));
-  }, [contacts]);
 
   const handleDeleteContact = id => {
     const updatedContacts = contacts.filter(contact => contact.id !== id);
