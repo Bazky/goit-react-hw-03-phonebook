@@ -1,18 +1,29 @@
-import React, { useState } from 'react';
-import ContactForm from './ContactForm';
-import ContactList from './ContactList';
-import Filter from './Filter';
+import React, { useEffect, useState } from 'react';
+import { ContactForm } from './ContactForm';
+import { ContactList } from './ContactList';
+import { Filter } from './Filter';
 import { nanoid } from 'nanoid';
 import propTypes from 'prop-types';
 
-const App = () => {
+export const App = () => {
   const [contacts, setContacts] = useState([]);
   const [filter, setFilter] = useState('');
 
-  const storedContacts = JSON.parse(localStorage.getItem('contacts')) || [];
-  if (contacts.length === 0 && storedContacts.length > 0) {
-    setContacts(storedContacts);
-  }
+  useEffect(() => {
+    const storedContacts = localStorage.getItem('contacts');
+    if (storedContacts) {
+      setContacts(JSON.parse(storedContacts));
+    }
+  }, []);
+
+  const handleAddContact = newContact => {
+    const contactWithId = { ...newContact, id: nanoid() };
+    setContacts(prevContacts => [...prevContacts, contactWithId]);
+  };
+
+  useEffect(() => {
+    localStorage.setItem('contacts', JSON.stringify(contacts));
+  }, [contacts]);
 
   const handleDeleteContact = id => {
     const updatedContacts = contacts.filter(contact => contact.id !== id);
@@ -22,15 +33,6 @@ const App = () => {
 
   const handleFilterChange = event => {
     setFilter(event.target.value);
-  };
-
-  const handleAddContact = newContact => {
-    const contactWithId = { ...newContact, id: nanoid() };
-    setContacts(prevContacts => [...prevContacts, contactWithId]);
-    localStorage.setItem(
-      'contacts',
-      JSON.stringify([...contacts, contactWithId])
-    );
   };
 
   const filteredContacts = contacts.filter(contact =>
@@ -51,8 +53,6 @@ const App = () => {
     </div>
   );
 };
-
-export default App;
 
 App.propTypes = {
   contacts: propTypes.arrayOf(

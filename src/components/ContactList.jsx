@@ -3,7 +3,7 @@ import { nanoid } from 'nanoid';
 import propTypes from 'prop-types';
 import css from './ContactList.module.css';
 
-const ContactList = ({ contacts, onDeleteContact }) => (
+export const ContactList = ({ contacts, onDeleteContact }) => (
   <div>
     <ul>
       {contacts.map(contact => (
@@ -20,7 +20,6 @@ const ContactList = ({ contacts, onDeleteContact }) => (
     </ul>
   </div>
 );
-export default ContactList;
 
 ContactList.propTypes = {
   contacts: propTypes.arrayOf(

@@ -1,7 +1,7 @@
 import React from 'react';
 import propTypes from 'prop-types';
 
-const Filter = ({ filter, onFilterChange }) => (
+export const Filter = ({ filter, onFilterChange }) => (
   <>
     <input
       type="text"
@@ -12,7 +12,6 @@ const Filter = ({ filter, onFilterChange }) => (
     />
   </>
 );
-export default Filter;
 
 Filter.propTypes = {
   filter: propTypes.string.isRequired,

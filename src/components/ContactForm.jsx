@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import css from './ContactForm.module.css';
 import propTypes from 'prop-types';
 
-const ContactForm = ({ contacts, onAddContact }) => {
+export const ContactForm = ({ contacts, onAddContact }) => {
   const [name, setName] = useState('');
   const [number, setNumber] = useState('');
 
@@ -63,7 +63,6 @@ const ContactForm = ({ contacts, onAddContact }) => {
     </div>
   );
 };
-export default ContactForm;
 
 ContactForm.propTypes = {
   contacts: propTypes.array.isRequired,
